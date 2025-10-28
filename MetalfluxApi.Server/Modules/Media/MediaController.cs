@@ -44,11 +44,19 @@ public class MediaController(
         return media;
     }
 
-    [HttpGet("{id:int}/stream")]
+    [HttpGet("{id:int}/stream/{chunk:int}")]
     [ProducesResponseType(typeof(FileStreamResult), StatusCodes.Status200OK)]
-    public async Task<FileStreamResult> GetMediaStream(int id)
+    public async Task<FileStreamResult> GetMediaStream(int id, int chunk)
     {
-        var (mediaStream, contentType, fileName) = await service.GetMediaStream(id);
+        var (mediaStream, contentType, fileName) = await service.GetMediaStream(id, chunk);
+        return File(mediaStream, contentType, fileName);
+    }
+
+    [HttpGet("{id:int}/stream-full")]
+    [ProducesResponseType(typeof(FileStreamResult), StatusCodes.Status200OK)]
+    public async Task<FileStreamResult> GetFullMediaStream(int id)
+    {
+        var (mediaStream, contentType, fileName) = await service.GetFullMediaStream(id);
         return File(mediaStream, contentType, fileName);
     }
 
@@ -61,7 +69,7 @@ public class MediaController(
     }
 
     [Authorize]
-    [HttpPost("{id:int}/upload-media")]
+    [HttpPost("{id:int}/upload")]
     public async Task<MediaDto> UploadMedia([FromForm] int id, IFormFile file)
     {
         var media = await service.UploadMedia(id, file);

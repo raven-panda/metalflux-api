@@ -18,6 +18,8 @@ public class MediaModel
 
     public bool HasUploadedMedia { get; set; } = false;
 
+    public int TotalChunks { get; set; } = 0;
+
     [Required]
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
