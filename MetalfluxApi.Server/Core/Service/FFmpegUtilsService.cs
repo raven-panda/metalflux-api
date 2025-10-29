@@ -8,7 +8,7 @@ public static class FFmpegUtilsService
 
     private static string? _tempDir;
 
-    public static void CreateTempDir(int id)
+    public static void CreateTempDir(long id)
     {
         if (_tempDir != null)
             Directory.Delete(_tempDir, true);
@@ -26,7 +26,7 @@ public static class FFmpegUtilsService
     }
 
     public static async Task<(string, FileStream)> AssembleVideoSegments(
-        int id,
+        long id,
         string fileExtension,
         List<string> segmentPaths,
         bool reencode

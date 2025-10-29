@@ -37,14 +37,14 @@ public class MediaController(
         };
     }
 
-    [HttpGet("{id:int}")]
+    [HttpGet("{id:long}")]
     public MediaDto GetById(int id)
     {
         var media = service.Get(id);
         return media;
     }
 
-    [HttpGet("{id:int}/stream/{chunk:int}")]
+    [HttpGet("{id:long}/stream/{chunk:int}")]
     [ProducesResponseType(typeof(FileStreamResult), StatusCodes.Status200OK)]
     public async Task<FileStreamResult> GetMediaStream(int id, int chunk)
     {
@@ -52,7 +52,7 @@ public class MediaController(
         return File(mediaStream, contentType, fileName);
     }
 
-    [HttpGet("{id:int}/stream-full")]
+    [HttpGet("{id:long}/stream-full")]
     [ProducesResponseType(typeof(FileStreamResult), StatusCodes.Status200OK)]
     public async Task<FileStreamResult> GetFullMediaStream(int id)
     {
@@ -69,7 +69,7 @@ public class MediaController(
     }
 
     [Authorize]
-    [HttpPost("{id:int}/upload")]
+    [HttpPost("{id:long}/upload")]
     public async Task<MediaDto> UploadMedia([FromForm] int id, IFormFile file)
     {
         var media = await service.UploadMedia(id, file);

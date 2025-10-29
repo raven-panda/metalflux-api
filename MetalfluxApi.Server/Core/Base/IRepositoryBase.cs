@@ -2,18 +2,18 @@
 
 public interface IRepositoryBase<TModel>
 {
-    TModel? Get(int? id);
-    bool Exists(int? id);
+    TModel? Get(long? id);
+    bool Exists(long? id);
     TModel Add(TModel item);
-    int Remove(int id);
+    long Remove(long id);
     TModel Update(TModel item);
 }
 
 public interface IAuditableRepositoryBase<TModel>
 {
-    TModel? Get(int? id);
-    bool Exists(int? id);
-    TModel Add(TModel item, int createdById);
-    int Remove(int id);
-    TModel Update(TModel item, int updatedById);
+    TModel? Get(long? id);
+    bool Exists(long? id);
+    TModel Add(TModel item, long createdById);
+    long Remove(long id);
+    TModel Update(TModel item, long updatedById);
 }

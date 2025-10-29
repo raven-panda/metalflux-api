@@ -10,7 +10,7 @@ public interface IUserService : IService<UserDto, UserModel>
 
 internal sealed class UserService(IUserRepository repo) : IUserService
 {
-    public UserDto Get(int id)
+    public UserDto Get(long id)
     {
         var item = repo.Get(id);
         if (item == null)
@@ -31,7 +31,7 @@ internal sealed class UserService(IUserRepository repo) : IUserService
         throw new NotImplementedException();
     }
 
-    public int Remove(int id)
+    public long Remove(long id)
     {
         if (!repo.Exists(id))
             throw new EntityNotFoundException("User", id);

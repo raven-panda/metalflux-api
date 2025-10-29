@@ -4,7 +4,7 @@ namespace MetalfluxApi.Server.Modules.User;
 
 public class UserDto
 {
-    public int? Id { get; set; }
+    public long? Id { get; set; }
 
     [Required, StringLength(30)]
     public string Username { get; set; } = string.Empty;

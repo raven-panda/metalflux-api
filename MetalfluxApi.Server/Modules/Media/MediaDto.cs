@@ -4,7 +4,7 @@ namespace MetalfluxApi.Server.Modules.Media;
 
 public class MediaDto
 {
-    public int? Id { get; set; }
+    public long? Id { get; set; }
 
     public string FileExtension { get; set; } = string.Empty;
     public string ContentType { get; set; } = string.Empty;

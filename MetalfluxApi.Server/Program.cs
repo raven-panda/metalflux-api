@@ -16,10 +16,28 @@ var builder = WebApplication.CreateBuilder(args);
 if (builder.Configuration["Jwt:Secret"] == null)
     throw new ArgumentNullException(
         nameof(builder.Configuration),
-        "Jwt:Secret configuration is null"
+        "Jwt:Secret configuration in user secrets is null"
+    );
+if (builder.Configuration["Database:Username"] == null)
+    throw new ArgumentNullException(
+        nameof(builder.Configuration),
+        "Database:Username configuration in user secrets is null"
+    );
+if (builder.Configuration["Database:Password"] == null)
+    throw new ArgumentNullException(
+        nameof(builder.Configuration),
+        "Database:Password configuration in user secrets is null"
     );
 
-builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("TestDb"));
+// TODO : use this for tests
+//builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("TestDb"));
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options
+        .UseNpgsql(
+            $"Host={builder.Configuration["Database:Host"]};Database={builder.Configuration["Database:DbName"]};Port={builder.Configuration["Database:Port"]};Username={builder.Configuration["Database:Username"]};Password={builder.Configuration["Database:Password"]};"
+        )
+        .UseSnakeCaseNamingConvention()
+);
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();

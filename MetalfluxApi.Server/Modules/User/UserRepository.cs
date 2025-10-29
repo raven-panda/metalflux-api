@@ -10,7 +10,7 @@ public interface IUserRepository : IRepositoryBase<UserModel>
 
 internal sealed class UserRepository(AppDbContext context) : IUserRepository
 {
-    public UserModel? Get(int? id)
+    public UserModel? Get(long? id)
     {
         return context.Users.Find(id);
     }
@@ -20,7 +20,7 @@ internal sealed class UserRepository(AppDbContext context) : IUserRepository
         return context.Users.FirstOrDefault(user => user.Email == email);
     }
 
-    public bool Exists(int? id)
+    public bool Exists(long? id)
     {
         return context.Users.Any(item => item.Id == id);
     }
@@ -40,7 +40,7 @@ internal sealed class UserRepository(AppDbContext context) : IUserRepository
         return item;
     }
 
-    public int Remove(int id)
+    public long Remove(long id)
     {
         var entity = context.Users.Find(id)!;
         context.Users.Remove(entity);

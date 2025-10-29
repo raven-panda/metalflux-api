@@ -79,7 +79,7 @@ public sealed class TokenProvider(IConfiguration configuration)
     /// <param name="token">Base64 token</param>
     /// <returns>User's id</returns>
     /// <exception cref="SecurityTokenException">Thrown if the token is invalid or if the user ID parsed from given token is null</exception>
-    public int ParseUserId(string token)
+    public long ParseUserId(string token)
     {
         var handler = new JsonWebTokenHandler();
         var validationResult = handler
@@ -109,7 +109,7 @@ public sealed class TokenProvider(IConfiguration configuration)
         if (userId == null)
             throw new SecurityTokenException();
 
-        return int.Parse(userId);
+        return long.Parse(userId);
     }
 
     /// <summary>
@@ -119,7 +119,7 @@ public sealed class TokenProvider(IConfiguration configuration)
     /// <returns>Tuple of id, email and role parsed from token</returns>
     /// <exception cref="SecurityTokenException">Thrown if the token is invalid or if the user ID, email or role parsed from given token is null</exception>
     public (
-        int id,
+        long id,
         string email /*, UserRole role*/
     ) ParseUserToken(string token)
     {

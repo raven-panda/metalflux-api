@@ -5,17 +5,17 @@ namespace MetalfluxApi.Server.Modules.Media;
 
 public interface IMediaRepository : IRepositoryBase<MediaModel>
 {
-    List<MediaModel> Search(CursorSearchRequestDto body, out int lastId, out bool lastItemReached);
+    List<MediaModel> Search(CursorSearchRequestDto body, out long lastId, out bool lastItemReached);
 }
 
 internal sealed class MediaRepository(AppDbContext context) : IMediaRepository
 {
-    public MediaModel? Get(int? id)
+    public MediaModel? Get(long? id)
     {
         return context.Medias.Find(id);
     }
 
-    public bool Exists(int? id)
+    public bool Exists(long? id)
     {
         return context.Medias.Any(item => item.Id == id);
     }
@@ -32,7 +32,7 @@ internal sealed class MediaRepository(AppDbContext context) : IMediaRepository
         return item;
     }
 
-    public int Remove(int id)
+    public long Remove(long id)
     {
         var entity = context.Medias.Find(id)!;
         context.Medias.Remove(entity);
@@ -54,7 +54,7 @@ internal sealed class MediaRepository(AppDbContext context) : IMediaRepository
 
     public List<MediaModel> Search(
         CursorSearchRequestDto body,
-        out int lastId,
+        out long lastId,
         out bool lastItemReached
     )
     {

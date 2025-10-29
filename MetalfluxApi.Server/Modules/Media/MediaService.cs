@@ -12,12 +12,12 @@ namespace MetalfluxApi.Server.Modules.Media;
 
 public interface IMediaService : IService<MediaDto, MediaModel>
 {
-    UserSelectionResponse GetUserSelection(int userId);
-    List<MediaDto> Search(CursorSearchRequestDto body, out int lastId, out bool lastItemReached);
-    Task<MediaDto> UploadMedia(int id, IFormFile file);
-    Task<(Stream file, string contentType, string fileName)> GetMediaStream(int id, int chunk);
+    UserSelectionResponse GetUserSelection(long userId);
+    List<MediaDto> Search(CursorSearchRequestDto body, out long lastId, out bool lastItemReached);
+    Task<MediaDto> UploadMedia(long id, IFormFile file);
+    Task<(Stream file, string contentType, string fileName)> GetMediaStream(long id, int chunk);
     Task<(Stream file, string contentType, string fileName)> GetFullMediaStream(
-        int id,
+        long id,
         bool reencode = true
     );
 }
@@ -28,7 +28,7 @@ internal sealed class MediaService(
     IConfiguration configuration
 ) : IMediaService
 {
-    public MediaDto Get(int id)
+    public MediaDto Get(long id)
     {
         var item = repository.Get(id);
         if (item == null)
@@ -37,7 +37,7 @@ internal sealed class MediaService(
         return ToDto(item);
     }
 
-    public UserSelectionResponse GetUserSelection(int userId)
+    public UserSelectionResponse GetUserSelection(long userId)
     {
         // TODO : implement that
         var item = repository.Search(
@@ -50,7 +50,7 @@ internal sealed class MediaService(
     }
 
     public async Task<(Stream file, string contentType, string fileName)> GetMediaStream(
-        int id,
+        long id,
         int chunk
     )
     {
@@ -79,7 +79,7 @@ internal sealed class MediaService(
 
     // TODO : fix the micro-cut between segments
     public async Task<(Stream file, string contentType, string fileName)> GetFullMediaStream(
-        int id,
+        long id,
         bool reencode = true
     )
     {
@@ -131,7 +131,7 @@ internal sealed class MediaService(
         return created;
     }
 
-    public async Task<MediaDto> UploadMedia(int id, IFormFile file)
+    public async Task<MediaDto> UploadMedia(long id, IFormFile file)
     {
         var uploadSuccess = false;
 
@@ -213,7 +213,7 @@ internal sealed class MediaService(
         return ToDto(item);
     }
 
-    public int Remove(int id)
+    public long Remove(long id)
     {
         if (!repository.Exists(id))
             throw new EntityNotFoundException("User", id);
@@ -234,7 +234,7 @@ internal sealed class MediaService(
 
     public List<MediaDto> Search(
         CursorSearchRequestDto body,
-        out int lastId,
+        out long lastId,
         out bool lastItemReached
     )
     {

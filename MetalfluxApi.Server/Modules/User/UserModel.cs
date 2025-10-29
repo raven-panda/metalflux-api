@@ -1,11 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MetalfluxApi.Server.Modules.User;
 
+[Table("app_user")]
 public class UserModel
 {
     [Key]
-    public int Id { get; set; }
+    public long Id { get; set; }
 
     [Required, StringLength(30)]
     public string Username { get; set; } = string.Empty;

@@ -1,0 +1,30 @@
+﻿version: '3.8'
+
+services:
+  minio:
+    image: minio/minio
+    container_name: minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: admin123
+    command: server /data --console-address ":9001"
+    volumes:
+      - ./.minio-data:/data
+  database:
+    image: postgres
+    restart: always
+    container_name: metalflux_db
+    environment:
+      POSTGRES_USER: metalflux_api
+      POSTGRES_PASSWORD: DevPassword**647**VerySecured!
+      POSTGRES_DB: metalflux_db
+    ports:
+      - "5434:5432"
+    volumes:
+      - letshookup_dbdata:/var/lib/postgresql
+
+volumes:
+  letshookup_dbdata:
